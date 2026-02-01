@@ -18,6 +18,7 @@ type Lead = {
     name: string;
     email: string;
     city: string;
+    country: string;
     timestamp: string;
     emailSent: boolean;
 };
@@ -45,11 +46,11 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         console.log('📦 Request body:', body);
 
-        const { name, email, city } = body;
+        const { name, email, city, country } = body;
 
-        if (!name || !email || !city) {
-            console.log('❌ Missing fields:', { name: !!name, email: !!email, city: !!city });
-            return NextResponse.json({ error: 'Name, email and city are required' }, { status: 400 });
+        if (!name || !email || !city || !country) {
+            console.log('❌ Missing fields:', { name: !!name, email: !!email, city: !!city, country: !!country });
+            return NextResponse.json({ error: 'Name, email, city and country are required' }, { status: 400 });
         }
 
         const leads = getLeads();
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
                 const result = await resend.emails.send({
                     from: fromEmail,
                     to: email,
-                    subject: `Your Free STR Compliance Report for ${city}`,
+                    subject: `Your Free STR Compliance Report for ${city}, ${country}`,
                     html: generateComplianceReportEmail(name, city)
                 });
 
@@ -92,12 +93,13 @@ export async function POST(request: NextRequest) {
             name,
             email,
             city,
+            country,
             timestamp: new Date().toISOString(),
             emailSent
         });
 
         saveLeads(leads);
-        console.log('💾 Lead saved:', { name, email, city, emailSent });
+        console.log('💾 Lead saved:', { name, email, city, country, emailSent });
 
         return NextResponse.json({
             message: 'Report sent successfully!',

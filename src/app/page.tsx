@@ -7,6 +7,7 @@ export default function Home() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [scanCount, setScanCount] = useState(87);
@@ -31,7 +32,7 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !city) return;
+    if (!name || !email || !city || !country) return;
 
     setIsSubmitting(true);
 
@@ -39,7 +40,7 @@ export default function Home() {
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, city })
+        body: JSON.stringify({ name, email, city, country })
       });
 
       if (response.ok) {
@@ -229,6 +230,28 @@ export default function Home() {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   placeholder="e.g. Austin, TX"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    borderRadius: '10px',
+                    border: '1px solid var(--border)',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    transition: 'border 0.2s'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '6px' }}>
+                  Country
+                </label>
+                <input
+                  type="text"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  placeholder="e.g. United States"
                   required
                   style={{
                     width: '100%',
@@ -662,6 +685,20 @@ export default function Home() {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="e.g. Austin, TX"
+            required
+            style={{
+              width: '100%',
+              padding: '14px 16px',
+              borderRadius: '10px',
+              border: '1px solid var(--border)',
+              fontSize: '1rem'
+            }}
+          />
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            placeholder="e.g. United States"
             required
             style={{
               width: '100%',
