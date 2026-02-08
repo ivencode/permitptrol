@@ -111,9 +111,11 @@ export default function Home() {
         maxWidth: '1200px',
         margin: '0 auto'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.25rem', fontWeight: 'bold' }}>
-          <Shield size={24} color="var(--primary)" /> PermitPatrol
-        </div>
+        <img
+          src="/images/logo.png"
+          alt="PermitPatrol"
+          style={{ height: '40px', width: 'auto' }}
+        />
         <div style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>
           <span style={{ color: 'var(--primary)', fontWeight: 600 }}>5,247</span> hosts protected
         </div>

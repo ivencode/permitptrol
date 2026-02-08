@@ -3,11 +3,14 @@
  * Matches the red/white/black brand of PermitPatrol
  */
 
+// Logo URL - update this to your production URL after deployment
+const LOGO_URL = 'https://permitpatrol.org/images/logo.png';
+
 export function generateComplianceReportEmail(
-    name: string,
-    city: string
+  name: string,
+  city: string
 ): string {
-    return `
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,12 +21,10 @@ export function generateComplianceReportEmail(
 <body style="margin: 0; padding: 0; background-color: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; background-color: #FFFFFF;">
     
-    <!-- Header -->
+    <!-- Header with Logo -->
     <tr>
-      <td style="background-color: #DC2626; padding: 24px; text-align: center;">
-        <h1 style="margin: 0; color: #FFFFFF; font-size: 24px; font-weight: 700;">
-          🛡️ PermitPatrol
-        </h1>
+      <td style="background-color: #FFFFFF; padding: 24px; text-align: center; border-bottom: 1px solid #E5E5E5;">
+        <img src="${LOGO_URL}" alt="PermitPatrol" style="height: 48px; width: auto;" />
       </td>
     </tr>
 
@@ -131,7 +132,7 @@ export function generateComplianceReportEmail(
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td style="text-align: center;">
-              <a href="https://permitpatrol.com/dashboard" style="display: inline-block; background-color: #DC2626; color: #FFFFFF; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 600;">
+              <a href="https://permitpatrol.org/dashboard" style="display: inline-block; background-color: #DC2626; color: #FFFFFF; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 600;">
                 Get 24/7 Monitoring →
               </a>
             </td>
@@ -144,12 +145,10 @@ export function generateComplianceReportEmail(
       </td>
     </tr>
 
-    <!-- Footer -->
+    <!-- Footer with Logo -->
     <tr>
       <td style="background-color: #1A1A1A; padding: 24px; text-align: center;">
-        <p style="margin: 0 0 8px 0; color: #FFFFFF; font-size: 14px; font-weight: 600;">
-          🛡️ PermitPatrol
-        </p>
+        <img src="${LOGO_URL}" alt="PermitPatrol" style="height: 32px; width: auto; margin-bottom: 12px; filter: brightness(0) invert(1);" />
         <p style="margin: 0; color: #737373; font-size: 12px;">
           Protecting STR hosts from compliance surprises.
         </p>
