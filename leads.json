@@ -5,5 +5,13 @@
     "city": "Dortmund",
     "timestamp": "2026-02-01T23:13:29.229Z",
     "emailSent": true
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "city": "Berlin",
+    "country": "Germany",
+    "timestamp": "2026-02-08T22:23:40.779Z",
+    "emailSent": true
   }
 ]

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { generateComplianceReportEmail } from '@/lib/emailTemplate';
+import { generateOverflowConfirmationEmail, emailConfig } from '@/lib/emailTemplate';
 
 // In-memory storage for leads (resets on cold start, but email sending is the priority)
 // For persistent storage, consider using Vercel KV, Supabase, or Neon
@@ -58,11 +58,21 @@ export async function POST(request: NextRequest) {
             console.log('📨 From:', fromEmail);
 
             try {
+                // Generate the overflow confirmation email (with 12-hour delay notice)
+                const emailContent = generateOverflowConfirmationEmail(name, city, country);
+
                 const result = await resend.emails.send({
                     from: fromEmail,
                     to: email,
-                    subject: `Your Free STR Compliance Report for ${city}, ${country}`,
-                    html: generateComplianceReportEmail(name, city)
+                    replyTo: emailConfig.replyTo, // Helps with deliverability
+                    subject: `We're Preparing Your STR Compliance Report for ${city}`,
+                    html: emailContent.html,
+                    text: emailContent.text, // Plain text version improves deliverability
+                    headers: {
+                        // List-Unsubscribe header helps prevent spam flags
+                        'List-Unsubscribe': `<${emailConfig.unsubscribeUrl}>`,
+                        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+                    }
                 });
 
                 console.log('✅ Email API response:', JSON.stringify(result, null, 2));
@@ -102,7 +112,7 @@ export async function POST(request: NextRequest) {
         // Return success even if email failed (so user gets feedback)
         // But include emailSent status so frontend can handle it
         return NextResponse.json({
-            message: emailSent ? 'Report sent successfully!' : 'Registered, but email may be delayed',
+            message: emailSent ? 'Confirmation sent! Your report will arrive within 12 hours.' : 'Registered, but email may be delayed',
             emailSent,
             emailError: emailError || undefined,
             lead: newLead
@@ -126,3 +136,4 @@ export async function GET() {
         note: 'In-memory storage - resets on cold start'
     });
 }
+
